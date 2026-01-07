@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinEase AI - Financial Wellness</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+<!-- 🔐 LOGIN SECTION -->
+<div class="auth-container" id="loginCard">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>FinEase AI</h1>
+      <p>Your Financial Wellness Companion</p>
+    </div>
+    
+    <div class="form-group">
+      <input type="email" id="email" placeholder="Email Address" class="input-field">
+      <input type="password" id="password" placeholder="Password" class="input-field">
+    </div>
+    
+    <div class="button-group">
+      <button onclick="login()" class="btn btn-primary">Login</button>
+      <button onclick="signup()" class="btn btn-secondary">Sign Up</button>
+    </div>
+    
+    <div class="divider">OR</div>
+    
+    <button onclick="guestLogin()" class="btn btn-guest">👤 Continue as Guest</button>
+    
+    <p id="msg" class="error-message"></p>
+  </div>
+</div>
+
+<!-- 📊 DASHBOARD SECTION -->
+<div class="dashboard-container" id="dashboardCard">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">FinEase AI</div>
+    <nav class="nav-menu">
+      <button class="nav-item active" onclick="showSection('overview')">📊 Overview</button>
+      <button class="nav-item" onclick="showSection('analysis')">📈 Analysis</button>
+      <button class="nav-item" onclick="showSection('wellness')">🧘 Wellness</button>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- OVERVIEW SECTION -->
+    <div id="section-overview" class="section active">
+      <div class="header">
+        <h1>Welcome to FinEase AI</h1>
+        <p>Upload your financial data to get AI-powered insights</p>
+      </div>
+      
+      <div class="upload-zone" id="uploadZone" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept=".csv,.pdf" class="file-input" onchange="handleFileSelect(event)">
+        <div class="upload-content">
+          <div class="upload-icon">📤</div>
+          <h3>Drag & Drop Your File Here</h3>
+          <p>or <span class="upload-link">Click to Browse</span></p>
+          <p class="info-text">Supported: CSV, PDF | Max 10MB</p>
+          <p id="file-name" class="file-name"></p>
+        </div>
+      </div>
+      
+      <button onclick="analyze()" class="btn btn-primary btn-large" id="analyzeBtn" style="display:none;">📂 Analyze Your Finances</button>
+    </div>
+    
+    <!-- ANALYSIS SECTION -->
+    <div id="section-analysis" class="section">
+      <div class="header">
+        <h1>Financial Analysis</h1>
+        <p>Your comprehensive financial stress report</p>
+      </div>
+      
+      <div class="metrics-grid">
+        <div class="metric-card stress-card">
+          <h3>Stress Score</h3>
+          <div class="stress-score" id="score">--</div>
+          <p id="level" class="stress-level">--</p>
+        </div>
+        
+        <div class="metric-card">
+          <h3>Income</h3>
+          <div class="metric-value" id="totalIncome">$0</div>
+        </div>
+        
+        <div class="metric-card">
+          <h3>Expenses</h3>
+          <div class="metric-value" id="totalExpenses">$0</div>
+        </div>
+        
+        <div class="metric-card">
+          <h3>EMI Burden</h3>
+          <div class="metric-value" id="totalEMI">$0</div>
+        </div>
+      </div>
+      
+      <div class="charts-grid">
+        <div class="chart-container">
+          <h3>Income vs Expenses</h3>
+          <canvas id="incomeExpenseChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+          <h3>Expense Breakdown</h3>
+          <canvas id="expenseChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+          <h3>Stress Level Gauge</h3>
+          <canvas id="stressGaugeChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+          <h3>Financial Health Score</h3>
+          <canvas id="healthChart"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- WELLNESS SECTION -->
+    <div id="section-wellness" class="section">
+      <div class="header">
+        <h1>Wellness & Relief</h1>
+        <p>AI-powered suggestions to ease your financial stress</p>
+      </div>
+      
+      <div class="wellness-container">
+        <div class="suggestions-box">
+          <h3>🤖 AI Recommendations</h3>
+          <ul id="suggestions" class="suggestions-list"></ul>
+        </div>
+        
+        <div class="wellness-box">
+          <h3>🧘 Stress Relief Techniques</h3>
+          <div id="relaxation-tips" class="relaxation-tips"></div>
+        </div>
+        
+        <div class="wellness-box">
+          <h3>💡 Smart Tips</h3>
+          <div id="smart-tips" class="smart-tips"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
